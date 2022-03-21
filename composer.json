@@ -1,0 +1,71 @@
+{
+    "name": "eptic/valet-wsl",
+    "description": "Advanced local development experience for Windows Subsystem for Linux.",
+    "keywords": [
+        "laravel",
+        "zonda",
+        "wwdhhd",
+        "ubuntu",
+        "fedora",
+        "arch",
+        "linux",
+        "valet",
+        "wsl",
+        "laragon",
+        "windows"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        },
+        {
+            "name": "Adam Wathan",
+            "email": "adam.wathan@gmail.com"
+        },
+        {
+            "name": "Bîlu Cristian",
+            "email": "bilucristian25@gmail.com"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "cli/includes/compatibility.php",
+            "cli/includes/facades.php",
+            "cli/includes/helpers.php"
+        ],
+        "psr-4": {
+            "Valet\\": "cli/Valet/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Valet\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "ext-posix": "*",
+        "ext-json": "*",
+        "php": "^8.0|^8.1",
+        "illuminate/container": "~5.3|^6.0|^7.0|^8.0|^9.0",
+        "mnapoli/silly": "~1.1",
+        "symfony/process": "^3.0|^4.0|^5.0|^6.0",
+        "nategood/httpful": "~0.2",
+        "tightenco/collect": "^5.3|^6.0|^7.0|^8.0",
+        "symfony/console": "~5.2"
+    },
+    "require-dev": {
+        "mockery/mockery": "~1.3.3",
+        "phpunit/phpunit": "^9.0"
+    },
+    "scripts": {
+        "post-install-cmd": [
+        ],
+        "post-update-cmd": [
+        ]
+    },
+    "bin": [
+        "valet"
+    ]
+}
