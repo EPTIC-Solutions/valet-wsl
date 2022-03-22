@@ -499,9 +499,11 @@ if (is_dir(VALET_HOME_PATH)) {
      */
     $app->command('is-latest', function () use ($version) {
         if (Valet::onLatestVersion($version)) {
-            output('YES');
+            info('You are using the latest version: ' . $version);
         } else {
-            output('NO');
+            warning('You are not using the latest version!');
+            warning('Installed version: ' . $version);
+            warning('Newest version: ' . Valet::getLatestVersion());
         }
     })->descriptions('Determine if this is the latest version of Valet');
 
