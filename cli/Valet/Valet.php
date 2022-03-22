@@ -22,7 +22,7 @@ class Valet
 
     public $valetBin = '/usr/local/bin/valet';
     public $sudoers = '/etc/sudoers.d/valet';
-    public $github = 'https://api.github.com/repos/genesisweb/valet-linux-plus/releases/latest';
+    public $github = 'https://api.github.com/repos/EPTIC-Solutions/valet-wsl/releases/latest';
 
     /**
      * Create a new Valet instance.
