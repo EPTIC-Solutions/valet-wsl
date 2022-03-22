@@ -51,7 +51,6 @@ class Hosts
         $contents[] = "127.0.0.1 $url #" . self::comment . "\r\n";
 
         $this->files->put(self::hosts_path, implode('', $contents));
-        dump(file(self::hosts_path));
     }
 
     /**
@@ -80,6 +79,5 @@ class Hosts
         }
 
         $this->files->put(self::hosts_path, implode('', $contents));
-        dump(file(self::hosts_path));
     }
 }
