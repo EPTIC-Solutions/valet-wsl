@@ -469,10 +469,10 @@ if (is_dir(VALET_HOME_PATH)) {
         $script = dirname(__FILE__) . '/scripts/update.sh';
 
         if (Valet::onLatestVersion($version)) {
-            info('You have the latest version of Valet Linux');
+            info('You have the latest version of Valet WSL');
             passthru($script);
         } else {
-            warning('There is a new release of Valet Linux');
+            warning('There is a new release of Valet WSL');
             warning('Updating now...');
             $latestVersion = Valet::getLatestVersion();
             if ($latestVersion) {
@@ -481,7 +481,7 @@ if (is_dir(VALET_HOME_PATH)) {
                 passthru($script . ' update');
             }
         }
-    })->descriptions('Update Valet Linux and clean up cruft');
+    })->descriptions('Update Valet WSL and clean up cruft');
 
     /**
      * Change the PHP version to the desired one.

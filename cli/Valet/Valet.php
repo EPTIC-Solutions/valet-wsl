@@ -96,7 +96,7 @@ class Valet
     }
 
     /**
-     * Retrieve the latest version of Valet Linux Plus.
+     * Retrieve the latest version of Valet WSL.
      *
      * @throws \Exception
      *
