@@ -67,7 +67,7 @@ class Nginx
      */
     public function installConfiguration()
     {
-        $contents = $this->files->get(__DIR__.'/../stubs/nginx.conf');
+        $contents = $this->files->get(__DIR__ . '/../stubs/nginx.conf');
         $nginx = $this->nginx_conf;
 
         $pid_string = 'pid /run/nginx.pid';
@@ -102,7 +102,7 @@ class Nginx
             str_replace(
                 ['VALET_HOME_PATH', 'VALET_SERVER_PATH', 'VALET_STATIC_PREFIX', 'VALET_PORT'],
                 [VALET_HOME_PATH, VALET_SERVER_PATH, VALET_STATIC_PREFIX, $this->configuration->read()['port']],
-                $this->files->get(__DIR__.'/../stubs/valet.conf')
+                $this->files->get(__DIR__ . '/../stubs/valet.conf')
             )
         );
 
@@ -115,7 +115,7 @@ class Nginx
 
         $this->files->putAsUser(
             '/etc/nginx/fastcgi_params',
-            $this->files->get(__DIR__.'/../stubs/fastcgi_params')
+            $this->files->get(__DIR__ . '/../stubs/fastcgi_params')
         );
     }
 
@@ -128,11 +128,11 @@ class Nginx
      */
     public function installNginxDirectory()
     {
-        if (!$this->files->isDir($nginxDirectory = VALET_HOME_PATH.'/Nginx')) {
+        if (!$this->files->isDir($nginxDirectory = VALET_HOME_PATH . '/Nginx')) {
             $this->files->mkdirAsUser($nginxDirectory);
         }
 
-        $this->files->putAsUser($nginxDirectory.'/.keep', "\n");
+        $this->files->putAsUser($nginxDirectory . '/.keep', "\n");
 
         $this->rewriteSecureNginxFiles();
     }
@@ -151,7 +151,7 @@ class Nginx
             str_replace(
                 ['VALET_HOME_PATH', 'VALET_SERVER_PATH', 'VALET_PORT'],
                 [VALET_HOME_PATH, VALET_SERVER_PATH, $newPort],
-                $this->files->get(__DIR__.'/../stubs/valet.conf')
+                $this->files->get(__DIR__ . '/../stubs/valet.conf')
             )
         );
     }
@@ -163,7 +163,7 @@ class Nginx
      */
     public function rewriteSecureNginxFiles()
     {
-        $domain = $this->configuration->read()['domain'];
+        $domain = $this->configuration->read()['domain'] ?? null;
 
         $this->site->resecureForNewDomain($domain, $domain);
     }

@@ -7,14 +7,14 @@ use Valet\PackageManagers\PackageKit;
 
 class PackageKitTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $_SERVER['SUDO_USER'] = user();
 
         Container::setInstance(new Container());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Mockery::close();
     }
@@ -51,12 +51,16 @@ class PackageKitTest extends TestCase
         $this->assertFalse(resolve(PackageKit::class)->installed('php7.0-cli'));
     }
 
+    /**
+     * @expectedException DomainException
+     */
     public function test_install_or_fail_will_install_packages()
     {
+        $this->expectNotToPerformAssertions();
         $cli = Mockery::mock(CommandLine::class);
-        $cli->shouldReceive('run')->once()->with('pkcon install -y dnsmasq', Mockery::type('Closure'));
+        $cli->shouldReceive('run')->once()->with('pkcon install -y nginx', Mockery::type('Closure'));
         swap(CommandLine::class, $cli);
-        resolve(PackageKit::class)->installOrFail('dnsmasq');
+        resolve(PackageKit::class)->installOrFail('nginx');
     }
 
     /**
@@ -69,6 +73,6 @@ class PackageKitTest extends TestCase
             $onError(1, 'test error ouput');
         });
         swap(CommandLine::class, $cli);
-        resolve(PackageKit::class)->installOrFail('dnsmasq');
+        resolve(PackageKit::class)->installOrFail('nginx');
     }
 }

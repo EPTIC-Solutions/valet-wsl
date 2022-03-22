@@ -71,12 +71,12 @@ class PackageKit implements PackageManager
      */
     public function installOrFail($package)
     {
-        output('<info>['.$package.'] is not installed, installing it now via PackageKit...</info> 🍻');
+        output('<info>[' . $package . '] is not installed, installing it now via PackageKit...</info> 🍻');
 
-        $this->cli->run(trim('pkcon install -y '.$package), function ($exitCode, $errorOutput) use ($package) {
+        $this->cli->run(trim('pkcon install -y ' . $package), function ($exitCode, $errorOutput) use ($package) {
             output($errorOutput);
 
-            throw new DomainException('PackageKit was unable to install ['.$package.'].');
+            throw new DomainException('PackageKit was unable to install [' . $package . '].');
         });
     }
 
@@ -85,7 +85,7 @@ class PackageKit implements PackageManager
      *
      * @return void
      */
-    public function setup()
+    public function setUp(): void
     {
         // Nothing to do
     }

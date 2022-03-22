@@ -61,12 +61,12 @@ class Dnf implements PackageManager
      */
     public function installOrFail($package)
     {
-        output('<info>['.$package.'] is not installed, installing it now via Dnf...</info> 🍻');
+        output('<info>[' . $package . '] is not installed, installing it now via Dnf...</info> 🍻');
 
-        $this->cli->run(trim('dnf install -y '.$package), function ($exitCode, $errorOutput) use ($package) {
+        $this->cli->run(trim('dnf install -y ' . $package), function ($exitCode, $errorOutput) use ($package) {
             output($errorOutput);
 
-            throw new DomainException('Dnf was unable to install ['.$package.'].');
+            throw new DomainException('Dnf was unable to install [' . $package . '].');
         });
     }
 
@@ -75,7 +75,7 @@ class Dnf implements PackageManager
      *
      * @return void
      */
-    public function setup()
+    public function setUp(): void
     {
         // Nothing to do
     }

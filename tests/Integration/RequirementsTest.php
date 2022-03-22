@@ -7,25 +7,27 @@ use Valet\Requirements;
 
 class RequirementsTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $_SERVER['SUDO_USER'] = user();
 
         Container::setInstance(new Container());
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Mockery::close();
     }
 
     public function test_home_path_is_inside_root()
     {
+        $this->expectNotToPerformAssertions();
         // TODO: Move VALET_HOME_PATH to something changeable
     }
 
     public function test_home_path_is_not_inside_root()
     {
+        $this->expectNotToPerformAssertions();
         // TODO: Move VALET_HOME_PATH to something changeable
     }
 
@@ -52,6 +54,7 @@ Max kernel policy version:      30
 
     public function test_selinux_is_in_permissive_mode()
     {
+        $this->expectNotToPerformAssertions();
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('run')->once()->with('sestatus')->andReturn('SELinux status:                 enabled
 SELinuxfs mount:                /sys/fs/selinux
@@ -71,8 +74,9 @@ Max kernel policy version:      30
 
     public function test_selinux_is_disabled()
     {
+        $this->expectNotToPerformAssertions();
         $cli = Mockery::mock(CommandLine::class);
-        $cli->shouldReceive('run')->once()->with('sestatus')->andReturn('SELinux status:                 disabled'.PHP_EOL);
+        $cli->shouldReceive('run')->once()->with('sestatus')->andReturn('SELinux status:                 disabled' . PHP_EOL);
         swap(CommandLine::class, $cli);
 
         $requirements = resolve(Requirements::class);
@@ -81,6 +85,7 @@ Max kernel policy version:      30
 
     public function test_selinux_is_enabled_but_ignore_flag_is_set()
     {
+        $this->expectNotToPerformAssertions();
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldNotReceive('run');
         swap(CommandLine::class, $cli);

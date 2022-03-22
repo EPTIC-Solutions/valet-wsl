@@ -71,12 +71,12 @@ class Apt implements PackageManager
      */
     public function installOrFail($package)
     {
-        output('<info>['.$package.'] is not installed, installing it now via Apt...</info> 🍻');
+        output('<info>[' . $package . '] is not installed, installing it now via Apt...</info> 🍻');
 
-        $this->cli->run(trim('apt-get install -y '.$package), function ($exitCode, $errorOutput) use ($package) {
+        $this->cli->run(trim('apt-get install -y ' . $package), function ($exitCode, $errorOutput) use ($package) {
             output($errorOutput);
 
-            throw new DomainException('Apt was unable to install ['.$package.'].');
+            throw new DomainException('Apt was unable to install [' . $package . '].');
         });
     }
 
@@ -85,7 +85,7 @@ class Apt implements PackageManager
      *
      * @return void
      */
-    public function setup()
+    public function setUp(): void
     {
         // Nothing to do
     }
