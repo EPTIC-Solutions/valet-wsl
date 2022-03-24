@@ -170,7 +170,7 @@ class Valet
     {
         return collect([
             LinuxService::class,
-            Systemd::class,
+            // Systemd::class, -- Currently disabled
         ])->first(function ($pm) {
             return resolve($pm)->isAvailable();
         }, function () {
