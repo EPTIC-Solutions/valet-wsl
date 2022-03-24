@@ -271,7 +271,7 @@ class LinuxService implements ServiceManager
     {
         try {
             $this->cli->run(
-                'which systemctl',
+                'systemctl',
                 function ($exitCode, $output) {
                     throw new DomainException('Systemd not available');
                 }

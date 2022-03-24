@@ -48,7 +48,7 @@ class Mailhog
     public function ensureInstalled()
     {
         if (!$this->isAvailable()) {
-            $this->cli->run('ln -s '.VALET_BIN_PATH.'/mailhog /opt/valet-linux/mailhog');
+            $this->cli->run('ln -s ' . VALET_BIN_PATH . '/mailhog /opt/valet-linux/mailhog');
         }
     }
 
@@ -57,22 +57,14 @@ class Mailhog
         info('Installing Mailhog service...');
 
         $servicePath = '/etc/init.d/mailhog';
-        $serviceFile = VALET_ROOT_PATH.'/cli/stubs/init/mailhog.sh';
-        $hasSystemd = $this->sm->_hasSystemd();
-
-        if ($hasSystemd) {
-            $servicePath = '/etc/systemd/system/mailhog.service';
-            $serviceFile = VALET_ROOT_PATH.'/cli/stubs/init/mailhog';
-        }
+        $serviceFile = VALET_ROOT_PATH . '/cli/stubs/init/mailhog.sh';
 
         $this->files->put(
             $servicePath,
             $this->files->get($serviceFile)
         );
 
-        if (!$hasSystemd) {
-            $this->cli->run("chmod +x $servicePath");
-        }
+        $this->cli->run("chmod +x $servicePath");
 
         $this->sm->enable('mailhog');
 
@@ -85,7 +77,7 @@ class Mailhog
     {
         $domain = \Configuration::read()['domain'];
 
-        \Site::secure("mailhog.{$domain}", __DIR__.'/../stubs/mailhog.conf');
+        \Site::secure("mailhog.{$domain}", __DIR__ . '/../stubs/mailhog.conf');
     }
 
     public function isAvailable()

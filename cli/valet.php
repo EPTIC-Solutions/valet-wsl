@@ -45,7 +45,7 @@ $app->command('install [--ignore-selinux]', function ($ignoreSELinux) {
     PhpFpm::install();
     Nginx::restart();
     Valet::symlinkToUsersBin();
-    Mailhog::install();
+    // Mailhog::install();
     ValetRedis::install();
     Mysql::install();
 
@@ -77,7 +77,7 @@ if (is_dir(VALET_HOME_PATH)) {
 
         Configuration::updateKey('domain', $domain);
         Site::resecureForNewDomain($oldDomain, $domain);
-        Mailhog::updateDomain();
+        // Mailhog::updateDomain();
         PhpFpm::restart();
         Nginx::restart();
 
@@ -304,7 +304,7 @@ if (is_dir(VALET_HOME_PATH)) {
         if (empty($services)) {
             PhpFpm::restart();
             Nginx::restart();
-            Mailhog::restart();
+            // Mailhog::restart();
             Mysql::restart();
             ValetRedis::restart();
             info('Valet services have been started.');
@@ -321,9 +321,9 @@ if (is_dir(VALET_HOME_PATH)) {
                     PhpFpm::restart();
                     break;
 
-                case 'mailhog':
-                    Mailhog::restart();
-                    break;
+                    // case 'mailhog':
+                    //     Mailhog::restart();
+                    //     break;
 
                 case 'mysql':
                     Mysql::restart();
@@ -345,7 +345,7 @@ if (is_dir(VALET_HOME_PATH)) {
         if (empty($services)) {
             PhpFpm::restart();
             Nginx::restart();
-            Mailhog::restart();
+            // Mailhog::restart();
             Mysql::restart();
             ValetRedis::restart();
             info('Valet services have been restarted.');
@@ -363,9 +363,9 @@ if (is_dir(VALET_HOME_PATH)) {
                     PhpFpm::restart();
                     break;
 
-                case 'mailhog':
-                    Mailhog::restart();
-                    break;
+                    // case 'mailhog':
+                    //     Mailhog::restart();
+                    //     break;
 
                 case 'mysql':
                     Mysql::restart();
@@ -400,7 +400,7 @@ if (is_dir(VALET_HOME_PATH)) {
         if (empty($services)) {
             PhpFpm::stop();
             Nginx::stop();
-            Mailhog::stop();
+            // Mailhog::stop();
             Mysql::stop();
             ValetRedis::stop();
             //            Elasticsearch::stop();
@@ -421,9 +421,9 @@ if (is_dir(VALET_HOME_PATH)) {
                     PhpFpm::stop();
                     break;
 
-                case 'mailhog':
-                    Mailhog::stop();
-                    break;
+                    // case 'mailhog':
+                    //     Mailhog::stop();
+                    //     break;
 
                 case 'mysql':
                     Mysql::stop();
@@ -457,7 +457,7 @@ if (is_dir(VALET_HOME_PATH)) {
     $app->command('uninstall', function () {
         Nginx::uninstall();
         PhpFpm::uninstall();
-        Mailhog::uninstall();
+        // Mailhog::uninstall();
         Configuration::uninstall();
         Valet::uninstall();
 
