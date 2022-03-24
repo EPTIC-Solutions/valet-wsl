@@ -10,4 +10,6 @@ Here a list of supported versions
 
 ## Reporting a Vulnerability
 
-Open a new issue on our github using the Bug Report template.
+We class a vulnerability to be any exploit or unexpected behaviour that has an impact on the application's performance or makes the application behave in an unintended way.
+
+If a new vulnerability is found you should always create a new [bug report](https://github.com/EPTIC-Solutions/valet-wsl/issues/new).
