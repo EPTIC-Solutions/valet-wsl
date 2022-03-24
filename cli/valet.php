@@ -19,7 +19,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
  */
 Container::setInstance(new Container());
 
-$version = 'v1.0.9';
+$version = file_get_contents(__DIR__ . '/../version');
 
 $app = new Application('Valet WSL', $version);
 

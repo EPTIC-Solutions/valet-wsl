@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+VERSION=$1
+
+if [ -z "$VERSION" ]; then
+  echo "Usage: $0 <version>"
+  exit 1
+fi
+
+printf v$VERSION > version
+git add version
+git commit -m "Bump version for $VERSION"
+git push
+git tag v$VERSION
+git push --tags
