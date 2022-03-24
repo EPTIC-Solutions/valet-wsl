@@ -2,7 +2,7 @@
 name: "Update Changelog"
 
 on:
-  create:
+  push:
     tags:
       - '*'
 
