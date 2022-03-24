@@ -71,4 +71,13 @@ interface ServiceManager
      * @return bool
      */
     public function _hasSystemd();
+
+    /**
+     * Prints the status of the specified services.
+     *
+     * @param array<string>|string $services Service names
+     * 
+     * @return void
+     */
+    public function printStatus($services);
 }

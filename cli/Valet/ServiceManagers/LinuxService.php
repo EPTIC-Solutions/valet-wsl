@@ -80,24 +80,10 @@ class LinuxService implements ServiceManager
      */
     public function printStatus($services)
     {
-        $services = is_array($services) ? $services : func_get_args();
+        $services = is_array($services) ? $services : [$services];
 
         foreach ($services as $service) {
-            if ($this->_hasSystemd()) {
-                $status = $this->cli->run(
-                    'systemctl status ' . $this->getRealService($service) . ' | grep "Active:"'
-                );
-
-                $running = strpos(trim($status), 'running');
-
-                if ($running) {
-                    return info(ucfirst($service) . ' is running...');
-                } else {
-                    return warning(ucfirst($service) . ' is stopped...');
-                }
-            }
-
-            return info($this->cli->run('service ' . $this->getRealService($service)));
+            return info($this->cli->run('service ' . $this->getRealService($service) . ' status'));
         }
     }
 

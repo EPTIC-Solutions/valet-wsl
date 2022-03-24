@@ -154,7 +154,7 @@ if (is_dir(VALET_HOME_PATH)) {
     $app->command('status', function () {
         PhpFpm::status();
         Nginx::status();
-    })->descriptions('View Valet service status');
+    })->descriptions('View Valet\'s services status');
 
     /**
      * Register a symbolic link with Valet.
