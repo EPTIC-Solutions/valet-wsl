@@ -308,11 +308,6 @@ class Site
     public function trustCertificate($crtPath, $url)
     {
         $this->cli->run(sprintf(
-            '/mnt/c/Windows/System32/certutil.exe -delstore "Root" "%s"',
-            $url
-        ));
-
-        $this->cli->run(sprintf(
             '/mnt/c/Windows/System32/certutil.exe -f -addstore "Root" "%s"',
             $crtPath
         ));
