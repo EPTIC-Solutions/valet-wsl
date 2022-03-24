@@ -126,7 +126,7 @@ class Mysql
     {
         $success = true;
         $this->cli->runAsUser(
-            "mysqladmin -u root --password='".$oldPwd."' password ".$newPwd,
+            "mysqladmin -u root --password='" . $oldPwd . "' password " . $newPwd,
             function () use (&$success) {
                 warning('Setting password for root user failed.');
                 $success = false;
@@ -249,13 +249,13 @@ class Mysql
      *
      * @param string $file
      * @param string $database
-     * @param bool   $isDatabaseExists
+     * @param bool   $hasDatabase
      */
-    public function importDatabase($file, $database, $isDatabaseExists)
+    public function importDatabase($file, $database, $hasDatabase)
     {
         $database = $this->getDatabaseName($database);
 
-        if (!$isDatabaseExists) {
+        if (!$hasDatabase) {
             $this->createDatabase($database);
         }
         $gzip = '';
@@ -310,13 +310,13 @@ class Mysql
     {
         $name = $this->getDatabaseName($name);
 
-        if (!$this->isDatabaseExists($name)) {
+        if (!$this->hasDatabase($name)) {
             warning("Database [$name] does not exists!");
 
             return false;
         }
 
-        $dbDropped = $this->query('DROP DATABASE `'.$name.'`') ? true : false;
+        $dbDropped = $this->query('DROP DATABASE `' . $name . '`') ? true : false;
 
         if (!$dbDropped) {
             warning('Error dropping database');
@@ -338,15 +338,15 @@ class Mysql
      */
     public function createDatabase($name)
     {
-        if ($this->isDatabaseExists($name)) {
-            warning("Database [$name] is already exists!");
+        if ($this->hasDatabase($name)) {
+            warning("Database [$name] already exists!");
 
             return;
         }
 
         try {
             $name = $this->getDatabaseName($name);
-            if ($this->query('CREATE DATABASE IF NOT EXISTS `'.$name.'`')) {
+            if ($this->query('CREATE DATABASE IF NOT EXISTS `' . $name . '`')) {
                 info("Database [{$name}] created successfully");
             }
         } catch (\Exception $exception) {
@@ -361,7 +361,7 @@ class Mysql
      *
      * @return bool
      */
-    public function isDatabaseExists($name)
+    public function hasDatabase($name)
     {
         $name = $this->getDatabaseName($name);
         $query = $this->query("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = '{$name}'");
@@ -382,19 +382,19 @@ class Mysql
     {
         $database = $this->getDatabaseName($database);
 
-        $filename = $database.'-'.\date('Y-m-d-H-i-s', \time());
+        $filename = $database . '-' . \date('Y-m-d-H-i-s', \time());
 
         if ($exportSql) {
-            $filename = $filename.'.sql';
+            $filename = $filename . '.sql';
         } else {
-            $filename = $filename.'.sql.gz';
+            $filename = $filename . '.sql.gz';
         }
 
-        $command = "mysqldump -u root -p{$this->getRootPassword()} ".escapeshellarg($database).' ';
+        $command = "mysqldump -u root -p{$this->getRootPassword()} " . escapeshellarg($database) . ' ';
         if ($exportSql) {
-            $command .= ' > '.escapeshellarg($filename);
+            $command .= ' > ' . escapeshellarg($filename);
         } else {
-            $command .= ' | gzip > '.escapeshellarg($filename);
+            $command .= ' | gzip > ' . escapeshellarg($filename);
         }
         $this->cli->run($command);
 

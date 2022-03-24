@@ -114,19 +114,21 @@ if (is_dir(VALET_HOME_PATH)) {
     })->descriptions('Get or set the port number used for Valet sites');
 
     /**
-     * Determine if the site is secured or not.
+     * Determine if the domain is secured or not.
      */
-    $app->command('secured [site]', function ($site) {
-        if (Site::secured()->contains($site)) {
-            info("{$site} is secured.");
+    $app->command('secured [domain]', function ($domain = null) {
+        $url = ($domain ?: Site::host(getcwd())) . '.' . Configuration::read()['domain'];
+
+        if (Site::secured()->contains($url)) {
+            info("{$url} is secured.");
 
             return 1;
         }
 
-        info("{$site} is not secured.");
+        info("{$url} is not secured.");
 
         return 0;
-    })->descriptions('Determine if the site is secured or not');
+    })->descriptions('Determine if the domain is secured or not');
 
     /**
      * Add the current working directory to the paths configuration.
@@ -517,8 +519,9 @@ if (is_dir(VALET_HOME_PATH)) {
     /**
      * Create new database in MySQL.
      */
-    $app->command('db:create [database_name]', function ($database_name) {
-        Mysql::createDatabase($database_name);
+    $app->command('db:create [database_name]', function ($database_name = null) {
+        $database = $database_name ?: Site::host(getcwd());
+        Mysql::createDatabase($database);
     })->descriptions('Create new database in MySQL');
 
     /**
@@ -587,7 +590,7 @@ if (is_dir(VALET_HOME_PATH)) {
         }
         $isExistsDatabase = false;
         // check if database already exists.
-        if (Mysql::isDatabaseExists($database_name)) {
+        if (Mysql::hasDatabase($database_name)) {
             $question = new ConfirmationQuestion('Database already exists are you sure you want to continue? [y/N] ', false);
             if (!$helper->ask($input, $output, $question)) {
                 warning('Aborted');
