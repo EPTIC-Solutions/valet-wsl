@@ -2,9 +2,8 @@
 name: "Update Changelog"
 
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [released]
 
 jobs:
   update:
