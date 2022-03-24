@@ -6,10 +6,8 @@ Here a list of supported versions
 
 | Version | Supported          | Support until |
 | ------- | ------------------ | ---- |
-| 2.1.x   | :white_check_mark: | Currently under support |
-| 2.0.x   | :white_check_mark: | until 1/1/2020 |
-| < 2.0   | :x:                | - |
+| 1.0.x   | :white_check_mark: | Currently under support |
 
 ## Reporting a Vulnerability
 
-Just open a new issue here on GitHub.
+Open a new issue on our github using the Bug Report template.
