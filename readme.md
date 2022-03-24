@@ -1,8 +1,11 @@
 <p align="center">
-<a href="https://packagist.org/packages/eptic/valet-wsl"><img src="https://poser.pugx.org/eptic/valet-wsl/downloads.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/eptic/valet-wsl"><img src="https://poser.pugx.org/eptic/valet-wsl/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/eptic/valet-wsl"><img src="https://poser.pugx.org/eptic/valet-wsl/v/unstable.svg" alt="Latest Unstable Version"></a>
-<a href="https://packagist.org/packages/eptic/valet-wsl"><img src="https://poser.pugx.org/eptic/valet-wsl/license.svg" alt="License"></a>
+    <a href="https://solutions.eptic.ro" target="_blank"><img src="https://raw.githubusercontent.com/eptic-solutions/art/master/cover.png" width="400px"/></a>
+</p>
+<p align="center">
+    <a href="https://packagist.org/packages/eptic/valet-wsl"><img src="https://poser.pugx.org/eptic/valet-wsl/downloads.svg" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/eptic/valet-wsl"><img src="https://poser.pugx.org/eptic/valet-wsl/v/stable.svg" alt="Latest Stable Version"></a>
+    <a href="https://packagist.org/packages/eptic/valet-wsl"><img src="https://poser.pugx.org/eptic/valet-wsl/v/unstable.svg" alt="Latest Unstable Version"></a>
+    <a href="https://packagist.org/packages/eptic/valet-wsl"><img src="https://poser.pugx.org/eptic/valet-wsl/license.svg" alt="License"></a>
 </p>
 
 ## Introduction
