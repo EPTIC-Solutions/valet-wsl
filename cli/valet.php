@@ -278,9 +278,16 @@ if (is_dir(VALET_HOME_PATH)) {
      * Open the current directory in the browser.
      */
     $app->command('open [domain]', function ($domain = null) {
-        $url = 'http://' . ($domain ?: Site::host(getcwd())) . '.' . Configuration::read()['domain'] . '/';
+        $url = ($domain ?: (Site::host(getcwd())) . '.' . Configuration::read()['domain']);
+        $httpProtocol = 'http';
 
-        passthru('xdg-open ' . escapeshellarg($url));
+        if (Site::secured()->contains($url)) {
+            $httpProtocol = 'https';
+        }
+
+        $url = "$httpProtocol://$url/";
+
+        passthru('/mnt/c/Windows/explorer.exe ' . escapeshellarg($url));
     })->descriptions('Open the site for the current (or specified) directory in your browser');
 
     /**
