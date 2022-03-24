@@ -527,18 +527,20 @@ if (is_dir(VALET_HOME_PATH)) {
     /**
      * Drop database in MySQL.
      */
-    $app->command('db:drop [database_name] [-y|--yes]', function ($input, $output, $database_name) {
+    $app->command('db:drop [database_name] [-y|--yes]', function ($input, $output, $database_name = null) {
+        $database = $database_name ?: Site::host(getcwd());
+
         $helper = $this->getHelperSet()->get('question');
         $defaults = $input->getOptions();
         if (!$defaults['yes']) {
-            $question = new ConfirmationQuestion('Are you sure you want to delete the database? [y/N] ', false);
+            $question = new ConfirmationQuestion("Are you sure you want to delete the database [$database]? [y/N] ", false);
             if (!$helper->ask($input, $output, $question)) {
-                warning('Aborted');
+                warning('Aborted by user.');
 
                 return;
             }
         }
-        Mysql::dropDatabase($database_name);
+        Mysql::dropDatabase($database);
     })->descriptions('Drop given database from MySQL');
 
     /**
