@@ -13,7 +13,6 @@ use Valet\PackageManagers\PackageKit;
 use Valet\PackageManagers\Pacman;
 use Valet\PackageManagers\Yum;
 use Valet\ServiceManagers\LinuxService;
-use Valet\ServiceManagers\Systemd;
 
 class Valet
 {
@@ -116,6 +115,10 @@ class Valet
      */
     public function environmentSetup()
     {
+        if (!$this->files->writable(VALET_HOSTS_PATH) || !$this->files->readable(VALET_HOSTS_PATH)) {
+            warning('You must start WSL as administrator.');
+            // exit();
+        }
         $this->packageManagerSetup();
         $this->serviceManagerSetup();
     }

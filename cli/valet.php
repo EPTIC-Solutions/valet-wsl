@@ -28,11 +28,6 @@ $app = new Application('Valet WSL', $version);
  */
 Valet::environmentSetup();
 
-if (!Filesystem::writable(VALET_HOSTS_PATH) || !Filesystem::readable(VALET_HOSTS_PATH)) {
-    warning('You must start WSL as administrator.');
-    exit();
-}
-
 /**
  * Allow Valet to be run more conveniently by allowing the Node proxy to run password-less sudo.
  */
