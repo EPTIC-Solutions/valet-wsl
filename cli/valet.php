@@ -129,6 +129,9 @@ if (is_dir(VALET_HOME_PATH)) {
      * Add the current working directory to the paths configuration.
      */
     $app->command('park [path]', function ($path = null) {
+        warning('Currently this command is disabled as we can\'t achieve dynamic domains without a DNS Proxy.');
+        exit();
+
         Configuration::addPath($path ?: getcwd());
 
         info(($path === null ? 'This' : "The [{$path}]") . " directory has been added to Valet's paths.");
@@ -138,13 +141,16 @@ if (is_dir(VALET_HOME_PATH)) {
      * Remove the current working directory from the paths configuration.
      */
     $app->command('forget [path]', function ($path = null) {
+        warning('Currently this command is disabled as we can\'t achieve dynamic domains without a DNS Proxy.');
+        exit();
+
         Configuration::removePath($path ?: getcwd());
 
         info(($path === null ? 'This' : "The [{$path}]") . " directory has been removed from Valet's paths.");
     })->descriptions('Remove the current working (or specified) directory from Valet\'s list of paths');
 
     /**
-     * Remove the current working directory to the paths configuration.
+     * View the current status of the valet's services.
      */
     $app->command('status', function () {
         PhpFpm::status();
@@ -260,6 +266,8 @@ if (is_dir(VALET_HOME_PATH)) {
      * Display all of the registered paths.
      */
     $app->command('paths', function () {
+        warning('Currently this command is disabled as we can\'t achieve dynamic domains without a DNS Proxy.');
+        exit();
         $paths = Configuration::read()['paths'];
 
         if (count($paths) > 0) {

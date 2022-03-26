@@ -117,7 +117,7 @@ class Valet
     {
         if (!$this->files->writable(VALET_HOSTS_PATH) || !$this->files->readable(VALET_HOSTS_PATH)) {
             warning('You must start WSL as administrator.');
-            // exit();
+            exit();
         }
         $this->packageManagerSetup();
         $this->serviceManagerSetup();
