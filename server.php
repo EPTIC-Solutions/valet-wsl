@@ -230,7 +230,7 @@ foreach ($valetConfig['paths'] as $path) {
     }
 }
 
-if (array_search($_SERVER['HTTP_HOST'], ['localhost', '127.0.0.1'])) {
+if (in_array($_SERVER['HTTP_HOST'], ['localhost', '127.0.0.1'])) {
     show_valet_index($valetConfig);
 }
 

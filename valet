@@ -11,7 +11,7 @@ function check_dependencies() {
     local NC='\033[0m'
     local msg=''
 
-    for cmd in "jq" "xsel" "certutil"; do
+    for cmd in "jq"; do
         local str=''
 
         if ! [[ -x "$(command -v $cmd)" ]]; then
@@ -23,7 +23,7 @@ function check_dependencies() {
     if [[ $msg != '' ]]; then
         printf "${RED}You have missing Valet dependiencies:\n"
         printf "$msg"
-        printf "\nPlease refer to https://cpriego.github.io/valet-linux/requirements on how to install them.${NC}\n"
+        printf "\nPlease refer to https://github.com/EPTIC-Solutions/valet-wsl on how to install them.${NC}\n"
         exit 1
     fi
 }
@@ -86,7 +86,7 @@ then
         fi
     done
 
-    # Decide the correct PORT to use according if the site has a secure 
+    # Decide the correct PORT to use according if the site has a secure
     # config or not.
     if grep --no-messages --quiet 443 ~/.valet/Nginx/$HOST*
     then

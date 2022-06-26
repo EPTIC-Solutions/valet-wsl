@@ -115,7 +115,7 @@ class Valet
      */
     public function environmentSetup()
     {
-        if (!$this->files->writable(VALET_HOSTS_PATH) || !$this->files->readable(VALET_HOSTS_PATH)) {
+        if ((!$this->files->writable(VALET_HOSTS_PATH) || !$this->files->readable(VALET_HOSTS_PATH))) {
             warning('You must start WSL as administrator.');
             exit();
         }
