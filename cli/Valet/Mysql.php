@@ -220,7 +220,7 @@ class Mysql
         try {
             // Create connection
             $this->link = new PDO(
-                'mysql:host=localhost',
+                'mysql:host=127.0.0.1',
                 'root',
                 ($rootPassword !== null ? $rootPassword : $this->getRootPassword())
             );
