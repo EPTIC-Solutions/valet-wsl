@@ -12,7 +12,7 @@ if (!empty($_GET['q'])) {
 <html>
 
 <head>
-    <title>Laragon</title>
+    <title>Valet WSL</title>
 
     <link href="https://fonts.googleapis.com/css?family=Inter:400" rel="stylesheet" type="text/css">
 
@@ -75,7 +75,7 @@ if (!empty($_GET['q'])) {
                 Sites root: <?= $valetConfig['paths'][0] ?><br />
             </div>
             <div class="opt">
-                <div><a title="Getting Started" href="#">Getting Started</a></div>
+                <div><a title="Getting Started" href="https://github.com/EPTIC-Solutions/valet-wsl/blob/master/readme.md">Getting Started</a></div>
             </div>
         </div>
 
