@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.2 - 2022-07-13
+
+Add a new index landpage for valet
+
 ## v1.0.12 - 2022-03-26
 
 **Full Changelog**: https://github.com/EPTIC-Solutions/valet-wsl/compare/v1.0.11...v1.0.12
