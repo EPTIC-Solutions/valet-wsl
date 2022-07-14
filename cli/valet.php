@@ -67,16 +67,21 @@ if (is_dir(VALET_HOME_PATH)) {
             return info(Configuration::read()['domain']);
         }
 
+        Valet::checkAdminRights();
+
+        Hosts::clear();
+
         $oldDomain = Configuration::read()['domain'];
         $domain = trim($domain, '.');
 
         Configuration::updateKey('domain', $domain);
+        Hosts::linkAll();
         Site::resecureForNewDomain($oldDomain, $domain);
         // Mailhog::updateDomain();
         PhpFpm::restart();
         Nginx::restart();
 
-        info('Your Valet domain has been updated to [' . $domain . '].');
+        success('Your Valet domain has been updated to [' . $domain . '].');
     })->descriptions('Get or set the domain used for Valet sites');
 
     /**
@@ -105,7 +110,7 @@ if (is_dir(VALET_HOME_PATH)) {
         PhpFpm::restart();
 
         $protocol = $https ? 'HTTPS' : 'HTTP';
-        info("Your Nginx {$protocol} port has been updated to [{$port}].");
+        success("Your Nginx {$protocol} port has been updated to [{$port}].");
     })->descriptions('Get or set the port number used for Valet sites');
 
     /**
@@ -134,7 +139,7 @@ if (is_dir(VALET_HOME_PATH)) {
 
         Configuration::addPath($path ?: getcwd());
 
-        info(($path === null ? 'This' : "The [{$path}]") . " directory has been added to Valet's paths.");
+        success(($path === null ? 'This' : "The [{$path}]") . " directory has been added to Valet's paths.");
     })->descriptions('Register the current working (or specified) directory with Valet');
 
     /**
@@ -146,7 +151,7 @@ if (is_dir(VALET_HOME_PATH)) {
 
         Configuration::removePath($path ?: getcwd());
 
-        info(($path === null ? 'This' : "The [{$path}]") . " directory has been removed from Valet's paths.");
+        success(($path === null ? 'This' : "The [{$path}]") . " directory has been removed from Valet's paths.");
     })->descriptions('Remove the current working (or specified) directory from Valet\'s list of paths');
 
     /**
@@ -161,11 +166,13 @@ if (is_dir(VALET_HOME_PATH)) {
      * Register a symbolic link with Valet.
      */
     $app->command('link [name]', function ($name) {
+        Valet::checkAdminRights();
+
         $linkPath = Site::link(getcwd(), $name = $name ?: basename(getcwd()));
 
         Hosts::link($name);
 
-        info('A [' . $name . '] symbolic link has been created in [' . $linkPath . '].');
+        success('A [' . $name . '] symbolic link has been created in [' . $linkPath . '].');
     })->descriptions('Link the current working directory to Valet');
 
     /**
@@ -181,43 +188,51 @@ if (is_dir(VALET_HOME_PATH)) {
      * Unlink a link from the Valet links directory.
      */
     $app->command('unlink [name]', function ($name) {
+        Valet::checkAdminRights();
+
         Site::unlink($name = $name ?: basename(getcwd()));
 
         Hosts::unlink($name);
 
-        info('The [' . $name . '] symbolic link has been removed.');
+        success('The [' . $name . '] symbolic link has been removed.');
     })->descriptions('Remove the specified Valet link');
 
     /**
      * Secure the given domain with a trusted TLS certificate.
      */
     $app->command('secure [domain]', function ($domain = null) {
+        Valet::checkAdminRights();
+
         $url = ($domain ?: Site::host(getcwd())) . '.' . Configuration::read()['domain'];
 
         Site::secure($url);
         PhpFpm::restart();
         Nginx::restart();
 
-        info('The [' . $url . '] site has been secured with a fresh TLS certificate.');
+        success('The [' . $url . '] site has been secured with a fresh TLS certificate.');
     })->descriptions('Secure the given domain with a trusted TLS certificate');
 
     /**
      * Stop serving the given domain over HTTPS and remove the trusted TLS certificate.
      */
     $app->command('unsecure [domain]', function ($domain = null) {
+        Valet::checkAdminRights();
+
         $url = ($domain ?: Site::host(getcwd())) . '.' . Configuration::read()['domain'];
 
         Site::unsecure($url);
         PhpFpm::restart();
         Nginx::restart();
 
-        info('The [' . $url . '] site will now serve traffic over HTTP.');
+        success('The [' . $url . '] site will now serve traffic over HTTP.');
     })->descriptions('Stop serving the given domain over HTTPS and remove the trusted TLS certificate');
 
     /**
      * Register a subdomain link.
      */
     $app->command('subdomain:create [name] [--secure]', function ($name, $secure) {
+        Valet::checkAdminRights();
+
         $name = $name ?: 'www';
         Site::link(getcwd(), $name . '.' . basename(getcwd()));
 
@@ -226,17 +241,19 @@ if (is_dir(VALET_HOME_PATH)) {
         }
         $domain = Configuration::read()['domain'];
 
-        info('Subdomain ' . $name . '.' . basename(getcwd()) . '.' . $domain . ' created');
+        success('Subdomain ' . $name . '.' . basename(getcwd()) . '.' . $domain . ' created');
     })->descriptions('Create a subdomains');
 
     /**
      * Unregister a subdomain link.
      */
     $app->command('subdomain:remove [name]', function ($name) {
+        Valet::checkAdminRights();
+
         $name = $name ?: 'www';
         Site::unlink($name . '.' . basename(getcwd()));
         $domain = Configuration::read()['domain'];
-        info('Subdomain ' . $name . '.' . basename(getcwd()) . '.' . $domain . ' removed');
+        success('Subdomain ' . $name . '.' . basename(getcwd()) . '.' . $domain . ' removed');
     })->descriptions('Remove a subdomains');
 
     /**
@@ -256,9 +273,9 @@ if (is_dir(VALET_HOME_PATH)) {
         $driver = ValetDriver::assign(getcwd(), basename(getcwd()), '/');
 
         if ($driver) {
-            info('This site is served by [' . get_class($driver) . '].');
+            success('This site is served by [' . get_class($driver) . '].');
         } else {
-            warning('Valet could not determine which driver to use for this site.');
+            info('Valet could not determine which driver to use for this site.');
         }
     })->descriptions('Determine which Valet driver serves the current working directory');
 
@@ -268,13 +285,13 @@ if (is_dir(VALET_HOME_PATH)) {
     $app->command('paths', function () {
         warning('Currently this command is disabled as we can\'t achieve dynamic domains without a DNS Proxy.');
         exit();
-        $paths = Configuration::read()['paths'];
+        // $paths = Configuration::read()['paths'];
 
-        if (count($paths) > 0) {
-            info(json_encode($paths, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-        } else {
-            warning('No paths have been registered.');
-        }
+        // if (count($paths) > 0) {
+        //     info(json_encode($paths, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        // } else {
+        //     warning('No paths have been registered.');
+        // }
     })->descriptions('Get all of the paths registered with Valet');
 
     /**
@@ -317,7 +334,7 @@ if (is_dir(VALET_HOME_PATH)) {
             // Mailhog::restart();
             Mysql::restart();
             ValetRedis::restart();
-            info('Valet services have been started.');
+            success('Valet services have been started.');
 
             return;
         }
@@ -345,7 +362,7 @@ if (is_dir(VALET_HOME_PATH)) {
             }
         }
 
-        info('Specified Valet services have been started.');
+        success('Specified Valet services have been started.');
     })->descriptions('Start the Valet services');
 
     /**
@@ -358,7 +375,7 @@ if (is_dir(VALET_HOME_PATH)) {
             // Mailhog::restart();
             Mysql::restart();
             ValetRedis::restart();
-            info('Valet services have been restarted.');
+            success('Valet services have been restarted.');
 
             return;
         }
@@ -400,7 +417,7 @@ if (is_dir(VALET_HOME_PATH)) {
             }
         }
 
-        info('Specified Valet services have been restarted.');
+        success('Specified Valet services have been restarted.');
     })->descriptions('Restart the Valet services');
 
     /**
@@ -416,7 +433,7 @@ if (is_dir(VALET_HOME_PATH)) {
             //            Elasticsearch::stop();
             //            RabbitMq::stop();
             //            Varnish::stop();
-            info('Valet services have been stopped.');
+            success('Valet services have been stopped.');
 
             return;
         }
@@ -458,20 +475,21 @@ if (is_dir(VALET_HOME_PATH)) {
             }
         }
 
-        info('Specified Valet services have been stopped.');
+        success('Specified Valet services have been stopped.');
     })->descriptions('Stop the Valet services');
 
     /**
      * Uninstall Valet entirely.
      */
     $app->command('uninstall', function () {
+        Hosts::clear();
         Nginx::uninstall();
         PhpFpm::uninstall();
         // Mailhog::uninstall();
         Configuration::uninstall();
         Valet::uninstall();
 
-        info('Valet has been uninstalled.');
+        success('Valet has been uninstalled.');
     })->descriptions('Uninstall the Valet services');
 
     /**
@@ -481,11 +499,11 @@ if (is_dir(VALET_HOME_PATH)) {
         $script = dirname(__FILE__) . '/scripts/update.sh';
 
         if (Valet::onLatestVersion($version)) {
-            info('You have the latest version of Valet WSL');
+            success('You have the latest version of Valet WSL');
             passthru($script);
         } else {
-            warning('There is a new release of Valet WSL');
-            warning('Updating now...');
+            info('There is a new release of Valet WSL');
+            info('Updating now...');
             $latestVersion = Valet::getLatestVersion();
             if ($latestVersion) {
                 passthru($script . " update $latestVersion");
@@ -501,7 +519,7 @@ if (is_dir(VALET_HOME_PATH)) {
     $app->command('use [preferedversion] [--update-cli]', function ($preferedversion = null, $updateCli = null) {
         info('Changing php-fpm version...');
         PhpFpm::changeVersion($preferedversion, $updateCli);
-        info('php-fpm version successfully changed! 🎉');
+        success('php-fpm version successfully changed! 🎉');
     })->descriptions('Set the PHP-fpm version to use, enter "default" or leave empty to use version: ' . PhpFpm::getVersion(true), [
         '--update-cli' => 'Updates CLI version as well',
     ]);
@@ -582,7 +600,7 @@ if (is_dir(VALET_HOME_PATH)) {
             return;
         }
 
-        info("Database [{$database_name}] reset successfully");
+        success("Database [{$database_name}] reset successfully");
     })->descriptions('Clear all tables for given database in MySQL');
 
     /**
@@ -622,7 +640,7 @@ if (is_dir(VALET_HOME_PATH)) {
         info('Exporting database...');
         $defaults = $input->getOptions();
         $data = Mysql::exportDatabase($database_name, $defaults['sql']);
-        info("Database [{$data['database']}] exported into file {$data['filename']}");
+        success("Database [{$data['database']}] exported into file {$data['filename']}");
     })->descriptions('Export selected MySQL database');
 
     /**

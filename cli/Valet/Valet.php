@@ -115,12 +115,31 @@ class Valet
      */
     public function environmentSetup()
     {
+        $this->packageManagerSetup();
+        $this->serviceManagerSetup();
+    }
+
+    /**
+     * Require admin rights.
+     * 
+     * @return void
+     */
+    public function checkAdminRights()
+    {
         if ((!$this->files->writable(VALET_HOSTS_PATH) || !$this->files->readable(VALET_HOSTS_PATH))) {
             warning('You must start WSL as administrator.');
             exit();
         }
-        $this->packageManagerSetup();
-        $this->serviceManagerSetup();
+    }
+
+    /**
+     * Check if the user has admin rights.
+     * 
+     * @return bool
+     */
+    public function hasAdminRights()
+    {
+        return $this->files->writable(VALET_HOSTS_PATH) && $this->files->readable(VALET_HOSTS_PATH);
     }
 
     /**

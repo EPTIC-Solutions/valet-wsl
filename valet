@@ -43,7 +43,7 @@ fi
 # Valet CLI script which is written in PHP. Will use PHP to do it.
 if [ ! -f "$DIR/cli/valet.php" ]
 then
-    DIR=$(php -r "echo realpath('$DIR/../laravel/valet');")
+    DIR=$(php -r "echo realpath('$DIR/../eptic/valet-wsl');")
 fi
 
 # If the command is one of the commands that requires "sudo" privileges
@@ -59,14 +59,14 @@ then
     fi
 fi
 
-if [[ -n $2 && "domain port" =~ $1 ]]
-then
-    if [[ "$EUID" -ne 0 ]]
-    then
-        sudo env HOME=$HOMEPATH $SOURCE "$@"
-        exit 0
-    fi
-fi
+# if [[ -n $2 && "domain port" =~ $1 ]]
+# then
+#     if [[ "$EUID" -ne 0 ]]
+#     then
+#         sudo env HOME=$HOMEPATH $SOURCE "$@"
+#         exit 0
+#     fi
+# fi
 
 # If the command is the "share" command we will need to resolve out any
 # symbolic links for the site. Before starting Ngrok, we will fire a

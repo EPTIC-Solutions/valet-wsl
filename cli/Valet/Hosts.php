@@ -48,9 +48,47 @@ class Hosts
             return;
         }
 
-        $contents[] = "127.0.0.1 $url #" . self::comment . "\r\n";
+        $contentsText = "127.0.0.1     $url";
+
+        for ($i = 0; $i < 24 - strlen($url); $i++) {
+            $contentsText .= ' ';
+        }
+        $contents[] = $contentsText . "#" . self::comment . "\r\n";
 
         $this->files->put(self::hosts_path, implode('', $contents));
+    }
+
+    /**
+     * Clear all linked websites from the hosts file.
+     *
+     * @return void
+     */
+    public function clear()
+    {
+        $domain = $this->configuration->get('domain');
+
+        $contents = file(self::hosts_path);
+        $contentsCount = count($contents);
+
+        for ($i = 0; $i < $contentsCount; $i++) {
+            if (strpos($contents[$i], '.' . $domain) !== false) {
+                unset($contents[$i]);
+            }
+        }
+
+        $this->files->put(self::hosts_path, implode('', $contents));
+    }
+
+    /**
+     * Add all the websites currently linked to the hosts file.
+     *
+     * @return void
+     */
+    public function linkAll()
+    {
+        foreach ($this->files->scanDir(VALET_HOME_PATH . '/Sites') as $site) {
+            $this->link($site);
+        }
     }
 
     /**

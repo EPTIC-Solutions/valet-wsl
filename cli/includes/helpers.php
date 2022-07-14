@@ -23,7 +23,7 @@ define('VALET_HOSTS_PATH', realpath('/mnt/c/Windows/System32/drivers/etc/hosts')
  */
 function info($output)
 {
-    output('<info>' . $output . '</info>');
+    output('<fg=yellow>' . $output . '</>');
 }
 
 /**
@@ -36,6 +36,18 @@ function info($output)
 function warning($output)
 {
     output('<fg=red>' . $output . '</>');
+}
+
+/**
+ * Output the given text to the console.
+ *
+ * @param string $output
+ *
+ * @return void
+ */
+function success($output)
+{
+    output('<fg=green>' . $output . '</>');
 }
 
 /**
