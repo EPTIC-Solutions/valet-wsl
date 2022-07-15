@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.4 - 2022-07-15
+
+**Full Changelog**: https://github.com/EPTIC-Solutions/valet-wsl/compare/v1.1.3...v1.1.4
+
 ## v1.1.3 - 2022-07-14
 
 - Remove the global admin rights requirement
