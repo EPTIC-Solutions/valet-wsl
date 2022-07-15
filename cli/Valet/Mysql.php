@@ -64,12 +64,12 @@ class Mysql
             beginning:
             $input = new ArgvInput();
             $output = new ConsoleOutput();
-            $question = new Question('Looks like MySQL already installed to your system, please enter MySQL [root] user password to connect MySQL with us:');
+            $question = new Question('<fg=green>Looks like MySQL already installed to your system, please enter MySQL [root] user password to connect MySQL with us:</>');
             $helper = new HelperSet([new QuestionHelper()]);
             $question->setHidden(true);
             $helper = $helper->get('question');
             $rootPassword = $helper->ask($input, $output, $question);
-            $connection = $this->getConnection($rootPassword ? $rootPassword : '');
+            $connection = $this->getConnection($rootPassword ?? '');
             if (!$connection) {
                 goto beginning;
             }

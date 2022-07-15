@@ -329,7 +329,7 @@ if (is_dir(VALET_HOME_PATH)) {
      */
     $app->command('start [services]*', function ($services) {
         if (empty($services)) {
-            PhpFpm::restart();
+            PhpFpm::start();
             Nginx::restart();
             // Mailhog::restart();
             Mysql::restart();

@@ -49,7 +49,7 @@ class PhpFpm
 
         $this->installConfiguration();
 
-        $this->restart();
+        $this->start();
     }
 
     /**
@@ -145,6 +145,16 @@ class PhpFpm
                 'VALET_HOME_PATH' => VALET_HOME_PATH,
             ], $contents)
         );
+    }
+
+    /**
+     * Start the PHP FPM process.
+     *
+     * @return void
+     */
+    public function start()
+    {
+        $this->sm->start($this->fpmServiceName());
     }
 
     /**
