@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.1.3 - 2022-07-14
+
+- Remove the global admin rights requirement
+- Add admin rights only to the needed commands
+- Fix the domain command
+- Now uninstall will correctly remove all used hosts ips added
+
 ## v1.1.2 - 2022-07-13
 
 Add a new index landpage for valet
