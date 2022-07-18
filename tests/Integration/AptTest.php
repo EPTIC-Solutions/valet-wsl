@@ -1,6 +1,10 @@
 <?php
 
+namespace Valet\Tests\Integration;
+
+use DomainException;
 use Illuminate\Container\Container;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use Valet\CommandLine;
 use Valet\PackageManagers\Apt;
@@ -51,9 +55,6 @@ class AptTest extends TestCase
         $this->assertFalse(resolve(Apt::class)->installed('php7.0-cli'));
     }
 
-    /**
-     * @expectedException DomainException
-     */
     public function test_install_or_fail_will_install_packages()
     {
         $this->expectNotToPerformAssertions();
@@ -63,11 +64,9 @@ class AptTest extends TestCase
         resolve(Apt::class)->installOrFail('nginx');
     }
 
-    /**
-     * @expectedException DomainException
-     */
     public function test_install_or_fail_throws_exception_on_failure()
     {
+        $this->expectException(DomainException::class);
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('run')->andReturnUsing(function ($command, $onError) {
             $onError(1, 'test error ouput');

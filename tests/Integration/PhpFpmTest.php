@@ -1,6 +1,9 @@
 <?php
 
+namespace Valet\Tests\Integration;
+
 use Illuminate\Container\Container;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use Valet\Contracts\PackageManager;
 use Valet\Contracts\ServiceManager;
@@ -50,6 +53,6 @@ class StubForUpdatingFpmConfigFiles extends PhpFpm
 
     public function getVersion($real = false)
     {
-        return '7.1';
+        return '8.1';
     }
 }

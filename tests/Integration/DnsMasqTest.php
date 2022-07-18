@@ -1,6 +1,9 @@
 <?php
 
+namespace Valet\Tests\Integration;
+
 use Illuminate\Container\Container;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use Valet\CommandLine;
 use Valet\Contracts\PackageManager;
@@ -43,6 +46,8 @@ class DnsMasqTest extends TestCase
 
     public function test_update_domain_removes_old_resolver_and_reinstalls()
     {
+        $this->expectNotToPerformAssertions();
+
         $pm = Mockery::mock(PackageManager::class);
         $sm = Mockery::mock(ServiceManager::class);
         $cli = Mockery::mock(Filesystem::class);
@@ -53,12 +58,5 @@ class DnsMasqTest extends TestCase
         $dnsMasq->shouldReceive('createCustomConfigFile')->once()->with('new');
         $sm->shouldReceive('restart')->once()->with('dnsmasq');
         $dnsMasq->updateDomain('old', 'new');
-    }
-}
-
-class StubForFiles extends Filesystem
-{
-    public function ensureDirExists($path, $owner = null, $mode = 0755)
-    {
     }
 }

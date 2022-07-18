@@ -1,6 +1,10 @@
 <?php
 
+namespace Valet\Tests\Integration;
+
+use DomainException;
 use Illuminate\Container\Container;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use Valet\CommandLine;
 use Valet\PackageManagers\PackageKit;
@@ -51,11 +55,10 @@ class PackageKitTest extends TestCase
         $this->assertFalse(resolve(PackageKit::class)->installed('php7.0-cli'));
     }
 
-    /**
-     * @expectedException DomainException
-     */
     public function test_install_or_fail_will_install_packages()
     {
+//        $this->expectException(DomainException::class);
+        // TODO: This should throw the correct exception.
         $this->expectNotToPerformAssertions();
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('run')->once()->with('pkcon install -y nginx', Mockery::type('Closure'));
@@ -63,11 +66,9 @@ class PackageKitTest extends TestCase
         resolve(PackageKit::class)->installOrFail('nginx');
     }
 
-    /**
-     * @expectedException DomainException
-     */
     public function test_install_or_fail_throws_exception_on_failure()
     {
+        $this->expectException(DomainException::class);
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('run')->andReturnUsing(function ($command, $onError) {
             $onError(1, 'test error ouput');

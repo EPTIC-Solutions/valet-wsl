@@ -1,6 +1,9 @@
 <?php
 
+namespace Valet\Tests\Integration;
+
 use Illuminate\Container\Container;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use Valet\CommandLine;
 use Valet\Configuration;

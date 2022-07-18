@@ -1,5 +1,7 @@
 <?php
 
+namespace Valet\Tests\Integration;
+
 use PHPUnit\Framework\TestCase;
 use Valet\Filesystem;
 

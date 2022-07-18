@@ -63,7 +63,13 @@
         "post-install-cmd": [
         ],
         "post-update-cmd": [
-        ]
+        ],
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "bin": [
         "valet"

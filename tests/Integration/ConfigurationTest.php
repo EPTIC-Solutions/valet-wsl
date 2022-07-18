@@ -1,6 +1,9 @@
 <?php
 
+namespace Valet\Tests\Integration;
+
 use Illuminate\Container\Container;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use Valet\Configuration;
 use Valet\Filesystem;
@@ -41,6 +44,7 @@ class ConfigurationTest extends TestCase
 
     public function test_add_path_adds_a_path_to_the_paths_array_and_removes_duplicates()
     {
+        $this->expectNotToPerformAssertions();
         $config = Mockery::mock(Configuration::class . '[read,write]', [new Filesystem()]);
         $config->shouldReceive('read')->andReturn([
             'paths' => ['path-1', 'path-2'],
@@ -62,6 +66,7 @@ class ConfigurationTest extends TestCase
 
     public function test_paths_may_be_removed_from_the_configuration()
     {
+        $this->expectNotToPerformAssertions();
         $config = Mockery::mock(Configuration::class . '[read,write]', [new Filesystem()]);
         $config->shouldReceive('read')->andReturn([
             'paths' => ['path-1', 'path-2'],
@@ -74,6 +79,7 @@ class ConfigurationTest extends TestCase
 
     public function test_prune_removes_directories_from_paths_that_no_longer_exist()
     {
+        $this->expectNotToPerformAssertions();
         $files = Mockery::mock(Filesystem::class . '[exists,isDir]');
         swap(Filesystem::class, $files);
         $files->shouldReceive('exists')->with(VALET_HOME_PATH . '/config.json')->andReturn(true);
@@ -91,6 +97,7 @@ class ConfigurationTest extends TestCase
 
     public function test_prune_doesnt_execute_if_configuration_directory_doesnt_exist()
     {
+        $this->expectNotToPerformAssertions();
         $files = Mockery::mock(Filesystem::class . '[exists]');
         swap(Filesystem::class, $files);
         $files->shouldReceive('exists')->with(VALET_HOME_PATH . '/config.json')->andReturn(false);
@@ -102,6 +109,7 @@ class ConfigurationTest extends TestCase
 
     public function test_update_key_updates_the_specified_configuration_key()
     {
+        $this->expectNotToPerformAssertions();
         $config = Mockery::mock(Configuration::class . '[read,write]', [new Filesystem()]);
         $config->shouldReceive('read')->once()->andReturn(['foo' => 'bar']);
         $config->shouldReceive('write')->once()->with(['foo' => 'bar', 'bar' => 'baz']);

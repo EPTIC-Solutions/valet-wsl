@@ -1,6 +1,9 @@
 <?php
 
+namespace Valet\Tests\Integration;
+
 use Illuminate\Container\Container;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use Valet\CommandLine;
 use Valet\ServiceManagers\LinuxService;
@@ -26,6 +29,8 @@ class LinuxServiceTest extends TestCase
 
     public function test_restart_restarts_the_service_using_linux_services()
     {
+        $this->expectNotToPerformAssertions();
+
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('quietly')->once()->with('sudo service nginx restart');
         swap(CommandLine::class, $cli);
@@ -34,6 +39,8 @@ class LinuxServiceTest extends TestCase
 
     public function test_start_starts_the_service_using_linux_services()
     {
+        $this->expectNotToPerformAssertions();
+
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('quietly')->once()->with('sudo service nginx start');
         swap(CommandLine::class, $cli);
@@ -42,6 +49,8 @@ class LinuxServiceTest extends TestCase
 
     public function test_stop_stops_the_service_using_linux_services()
     {
+        $this->expectNotToPerformAssertions();
+
         $cli = Mockery::mock(CommandLine::class);
         $cli->shouldReceive('quietly')->once()->with('sudo service nginx stop');
         swap(CommandLine::class, $cli);
