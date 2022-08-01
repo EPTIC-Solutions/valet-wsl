@@ -230,15 +230,13 @@ if (is_dir(VALET_HOME_PATH)) {
     /**
      * Register a subdomain link.
      */
-    $app->command('subdomain:create [name] [--secure]', function ($name, $secure) {
+    $app->command('subdomain:create [name]', function ($name, $secure) {
         Valet::checkAdminRights();
 
         $name = $name ?: 'www';
         Site::link(getcwd(), $name . '.' . basename(getcwd()));
+        Hosts::link($name . '.' . basename(getcwd()));
 
-        if ($secure) {
-            $this->runCommand('secure ' . $name);
-        }
         $domain = Configuration::read()['domain'];
 
         success('Subdomain ' . $name . '.' . basename(getcwd()) . '.' . $domain . ' created');
@@ -252,6 +250,7 @@ if (is_dir(VALET_HOME_PATH)) {
 
         $name = $name ?: 'www';
         Site::unlink($name . '.' . basename(getcwd()));
+        Hosts::unlink($name . '.' . basename(getcwd()));
         $domain = Configuration::read()['domain'];
         success('Subdomain ' . $name . '.' . basename(getcwd()) . '.' . $domain . ' removed');
     })->descriptions('Remove a subdomains');
