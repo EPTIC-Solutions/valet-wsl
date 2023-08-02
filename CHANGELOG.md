@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.0 - 2023-08-02
+
+**Full Changelog**: https://github.com/EPTIC-Solutions/valet-wsl/compare/v1.1.5...v2.0.0
+
 ## v1.1.5 - 2022-08-02
 
 **Full Changelog**: https://github.com/EPTIC-Solutions/valet-wsl/compare/v1.1.4...v1.1.5
